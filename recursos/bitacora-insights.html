@@ -107,6 +107,21 @@
   }
 
   footer{ text-align:center; padding: 2rem 1rem 3rem; color: var(--muted); font-size:0.85rem; }
+
+    /* ===== TABLAS RESPONSIVE EN CELULAR ===== */
+  @media (max-width: 640px){
+    table.mini-table{
+      display: block;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap;
+      max-width: 100%;
+    }
+    table.mini-table th, table.mini-table td{
+      padding: 0.4rem 0.7rem;
+    }
+  }
+  
 </style>
 </head>
 <body>
