@@ -121,6 +121,22 @@
       padding: 0.4rem 0.7rem;
     }
   }
+
+    /* ===== EJERCICIOS CON SOLUCIÓN OCULTA (reutilizable en cualquier entrada futura) ===== */
+  .exercise-block{
+    margin-top: 1.4rem; border: 1.5px dashed var(--terracotta); border-radius: 12px;
+    padding: 1.1rem 1.3rem; background: #fffaf5;
+  }
+  .exercise-block h4{
+    margin:0 0 0.8rem; font-family:'Playfair Display', serif; color: var(--terracotta); font-size:1.05rem;
+  }
+  .exercise-item{ margin-bottom: 0.9rem; }
+  .exercise-item .qn{ font-weight:600; }
+  details{
+    margin-top: 0.4rem; background:#fff; border:1px solid var(--line); border-radius:8px; padding:0.5rem 0.9rem;
+  }
+  details summary{ cursor:pointer; font-weight:600; color: var(--navy); font-size:0.86rem; }
+  details[open] summary{ margin-bottom:0.5rem; }
   
 </style>
 </head>
@@ -221,6 +237,68 @@
     </div>
   </div>
 </main>
+
+<!-- ENTRADA 4 -->
+<div class="entry">
+  <div class="entry-head">
+    <span class="entry-tag">Tema 1 · Equivalencias lógicas</span>
+    <span class="entry-date">2026-08-26</span>
+  </div>
+  <div class="entry-title">Elementos neutros vs. elementos dominantes en $\land$ y $\lor$</div>
+  <div class="entry-body">
+    <p>Combinar una proposición con una constante ($\text{V}$ o $\text{F}$) puede "no hacer nada" (neutro) o "imponer siempre el mismo resultado" (dominante), según el conector.</p>
+    <table class="mini-table">
+      <tr><th>Expresión</th><th>Resultado</th><th>Tipo</th></tr>
+      <tr><td>$p \land \text{V}$</td><td>$p$</td><td>Neutro</td></tr>
+      <tr><td>$p \lor \text{F}$</td><td>$p$</td><td>Neutro</td></tr>
+      <tr><td>$p \land \text{F}$</td><td>$\text{F}$</td><td>Dominante</td></tr>
+      <tr><td>$p \lor \text{V}$</td><td>$\text{V}$</td><td>Dominante</td></tr>
+    </table>
+    <div class="takeaway">
+      <span class="label">Por qué me importa</span>
+      Es exactamente el mismo patrón que $a\times 1=a$ (neutro) vs. $a\times 0=0$ (dominante) en álgebra numérica. Confundí $p\lor \text{F}$ con "domina" — pero el que domina en $\lor$ es $\text{V}$, no $\text{F}$. Antes de simplificar, siempre identifico primero si la constante es neutra o dominante para ESE conector específico.
+    </div>
+
+    <div class="exercise-block">
+      <h4>5 ejercicios de práctica — Equivalencias lógicas notables</h4>
+
+      <div class="exercise-item">
+        <div class="qn">1. Simplifica: $\neg(p \land \neg q)$</div>
+        <details><summary>Ver solución</summary>
+          <p>$\neg(p\land\neg q) \equiv \neg p \lor \neg(\neg q)$ (De Morgan) $\equiv \neg p \lor q$ (doble negación).</p>
+        </details>
+      </div>
+
+      <div class="exercise-item">
+        <div class="qn">2. Simplifica: $(p \lor q) \land (p \lor \neg q)$</div>
+        <details><summary>Ver solución</summary>
+          <p>$\equiv p \lor (q \land \neg q)$ (distributividad) $\equiv p \lor \text{F}$ (contradicción) $\equiv p$ ($\text{F}$ es neutro en $\lor$).</p>
+        </details>
+      </div>
+
+      <div class="exercise-item">
+        <div class="qn">3. Simplifica: $\neg p \lor (p \land q)$ (Ley de Absorción)</div>
+        <details><summary>Ver solución</summary>
+          <p>$\equiv (\neg p \lor p) \land (\neg p \lor q)$ (distributividad) $\equiv \text{V} \land (\neg p \lor q)$ (tercero excluido) $\equiv \neg p \lor q$ ($\text{V}$ es neutro en $\land$). Dato curioso: $\neg p \lor q$ es justo $p \rightarrow q$.</p>
+        </details>
+      </div>
+
+      <div class="exercise-item">
+        <div class="qn">4. Demuestra: $p \rightarrow (q \rightarrow r) \equiv (p \land q) \rightarrow r$</div>
+        <details><summary>Ver solución</summary>
+          <p>$p\to(q\to r) \equiv \neg p \lor(\neg q \lor r) \equiv (\neg p\lor\neg q)\lor r$ (asociatividad) $\equiv \neg(p\land q)\lor r$ (De Morgan) $\equiv (p\land q)\to r$ (condicional como disyunción, en reversa).</p>
+        </details>
+      </div>
+
+      <div class="exercise-item">
+        <div class="qn">5. (Reto) Simplifica: $\neg(p \rightarrow q) \lor \neg(q \rightarrow p)$</div>
+        <details><summary>Ver solución</summary>
+          <p>Usando $\neg(p\to q)\equiv p\land\neg q$ dos veces: $(p\land\neg q)\lor(q\land\neg p)$. Este resultado es justo la disyunción exclusiva: $p \oplus q$ — la fórmula es verdadera exactamente cuando $p$ y $q$ tienen valores de verdad distintos.</p>
+        </details>
+      </div>
+    </div>
+  </div>
+</div>
 
 <footer>
   Bitácora personal de Edwin · Álgebra y Matemática Discreta<br>
