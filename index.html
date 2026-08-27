@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Álgebra y Matemática Discreta — Curso completo</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --navy: #0f2a4a;
+    --navy-2: #16375e;
+    --gold: #c8992c;
+    --gold-light: #e8c877;
+    --terracotta: #b3502e;
+    --paper: #faf7f2;
+    --paper-2: #f2ede3;
+    --ink: #1c2430;
+    --muted: #5a6472;
+    --line: #dcd3c0;
+  }
+  *{ box-sizing: border-box; }
+  html{ -webkit-text-size-adjust: 100%; }
+  body{
+    margin:0; background: var(--paper); color: var(--ink);
+    font-family: 'Inter', sans-serif; line-height: 1.6; font-size: 16.5px;
+  }
+
+  /* ===== HEADER ===== */
+  header.masthead{
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 60%, #1c4a75 100%);
+    color: #fff; padding: 3.2rem 1.5rem 2.6rem; position: relative; overflow:hidden;
+  }
+  header.masthead::after{
+    content:""; position:absolute; right:-60px; top:-60px;
+    width:280px; height:280px; border-radius:50%;
+    background: radial-gradient(circle, rgba(200,153,44,0.25), transparent 70%);
+  }
+  .masthead-inner{ max-width: 1080px; margin:0 auto; position:relative; z-index:1; }
+  .eyebrow{
+    text-transform: uppercase; letter-spacing:0.16em; font-size:0.72rem;
+    color: var(--gold-light); font-weight:600; margin-bottom:0.7rem;
+  }
+  h1.title{
+    font-family:'Playfair Display', serif; font-weight:700;
+    font-size: clamp(1.7rem, 5vw, 2.7rem); margin:0 0 0.6rem;
+  }
+  .subtitle{ color:#d7dee8; font-size:1rem; max-width:640px; }
+
+  .prof-card{
+    margin-top:1.6rem; display:flex; gap:1rem; align-items:center;
+    background: rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15);
+    border-radius:12px; padding: 0.85rem 1.2rem; max-width: fit-content;
+  }
+  .prof-badge{
+    width:42px; height:42px; border-radius:50%; flex-shrink:0;
+    background: linear-gradient(135deg, var(--gold), var(--terracotta));
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Playfair Display', serif; font-weight:700; color:#fff; font-size:1.05rem;
+  }
+  .prof-name{ font-weight:600; font-size:0.95rem; }
+  .prof-role{ font-size:0.82rem; color:#c7d0dd; }
+
+  /* ===== MAIN ===== */
+  main{ max-width: 1080px; margin:0 auto; padding: 2.4rem 1.5rem 4rem; }
+
+  .section-label{
+    font-family:'Inter', sans-serif; font-weight:700; font-size:1rem;
+    color: var(--navy); text-transform:uppercase; letter-spacing:0.06em;
+    margin: 0 0 0.3rem;
+  }
+  .section-rule{ height:3px; width:56px; background: var(--gold); border-radius:2px; margin: 0.5rem 0 1.4rem; }
+
+  /* ===== GRID DE TEMAS (responsive) ===== */
+  .temas-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.1rem;
+  }
+
+  .tema-card{
+    position:relative;
+    background:#fff; border:1px solid var(--line); border-radius:14px;
+    padding: 1.2rem 1.3rem 1.3rem;
+    text-decoration:none; color: inherit; display:block;
+    box-shadow: 0 8px 22px -18px rgba(15,42,74,0.5);
+    transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  }
+  a.tema-card:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 14px 28px -16px rgba(15,42,74,0.45);
+    border-color: var(--gold);
+  }
+  .tema-card.disabled{
+    cursor: default; opacity: 0.62; filter: grayscale(0.25);
+  }
+
+  .tema-num{
+    font-family:'Playfair Display', serif; font-weight:700; font-size:1.9rem;
+    color: var(--terracotta); line-height:1;
+  }
+  .tema-card.disabled .tema-num{ color: var(--muted); }
+
+  .tema-title{
+    font-family:'Inter', sans-serif; font-weight:700; font-size:1.02rem;
+    color: var(--navy); margin: 0.55rem 0 0.3rem;
+  }
+  .tema-card.disabled .tema-title{ color: var(--muted); }
+
+  .tema-status{
+    display:inline-block; margin-top:0.5rem;
+    font-size:0.68rem; text-transform:uppercase; letter-spacing:0.06em; font-weight:700;
+    padding: 0.22rem 0.6rem; border-radius:999px;
+  }
+  .status-listo{ background:#e7f3ea; color:#256d3c; }
+  .status-proximo{ background: var(--paper-2); color: var(--muted); }
+
+  /* ===== RECURSOS ===== */
+  .recursos-grid{
+    display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+    gap: 1.1rem; margin-bottom: 3rem;
+  }
+  .recurso-card{
+    display:flex; gap:0.9rem; align-items:flex-start;
+    background:#fbf3e6; border:1px solid var(--line); border-left:4px solid var(--gold);
+    border-radius: 0 12px 12px 0; padding: 1rem 1.2rem; text-decoration:none; color:inherit;
+    transition: transform .15s ease;
+  }
+  a.recurso-card:hover{ transform: translateY(-2px); }
+  .recurso-icon{ font-size:1.5rem; line-height:1; }
+  .recurso-title{ font-weight:700; color: var(--navy); font-size:0.98rem; margin-bottom:0.2rem; }
+  .recurso-desc{ font-size:0.86rem; color: var(--muted); }
+
+  footer{ text-align:center; padding: 2rem 1rem 3rem; color: var(--muted); font-size:0.85rem; }
+
+  /* ===== RESPONSIVE: MÓVIL ===== */
+  @media (max-width: 640px){
+    body{ font-size: 15.5px; }
+    header.masthead{ padding: 2.2rem 1.1rem 2rem; }
+    main{ padding: 1.8rem 1.1rem 3rem; }
+    .temas-grid, .recursos-grid{ grid-template-columns: 1fr; }
+    .prof-card{ max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="eyebrow">Licenciatura en Matemática Computacional</div>
+    <h1 class="title">Álgebra y Matemática Discreta</h1>
+    <p class="subtitle">Material completo del curso: los 10 temas, con teoría al nivel de las mejores universidades, ejemplos resueltos y ejercicios de práctica.</p>
+    <div class="prof-card">
+      <div class="prof-badge">GB</div>
+      <div>
+        <div class="prof-name">Prof. George Boole</div>
+        <div class="prof-role">Cátedra de Álgebra y Matemática Discreta</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <div class="section-label">Temas del curso</div>
+  <div class="section-rule"></div>
+
+  <div class="temas-grid">
+
+    <a class="tema-card" href="temas/tema-01-logica-matematica.html">
+      <div class="tema-num">01</div>
+      <div class="tema-title">Lógica Matemática</div>
+      <span class="tema-status status-listo">Disponible</span>
+    </a>
+
+    <div class="tema-card disabled">
+      <div class="tema-num">02</div>
+      <div class="tema-title">Tema 2</div>
+      <span class="tema-status status-proximo">Próximamente</span>
+    </div>
+
+    <div class="tema-card disabled">
+      <div class="tema-num">03</div>
+      <div class="tema-title">Tema 3</div>
+      <span class="tema-status status-proximo">Próximamente</span>
+    </div>
+
+    <div class="tema-card disabled">
+      <div class="tema-num">04</div>
+      <div class="tema-title">Tema 4</div>
+      <span class="tema-status status-proximo">Próximamente</span>
+    </div>
+
+    <div class="tema-card disabled">
+      <div class="tema-num">05</div>
+      <div class="tema-title">Tema 5</div>
+      <span class="tema-status status-proximo">Próximamente</span>
+    </div>
+
+    <div class="tema-card disabled">
+      <div class="tema-num">06</div>
+      <div class="tema-title">Tema 6</div>
+      <span class="tema-status status-proximo">Próximamente</span>
+    </div>
+
+    <div class="tema-card disabled">
+      <div class="tema-num">07</div>
+      <div class="tema-title">Tema 7</div>
+      <span class="tema-status status-proximo">Próximamente</span>
+    </div>
+
+    <div class="tema-card disabled">
+      <div class="tema-num">08</div>
+      <div class="tema-title">Tema 8</div>
+      <span class="tema-status status-proximo">Próximamente</span>
+    </div>
+
+    <div class="tema-card disabled">
+      <div class="tema-num">09</div>
+      <div class="tema-title">Tema 9</div>
+      <span class="tema-status status-proximo">Próximamente</span>
+    </div>
+
+    <div class="tema-card disabled">
+      <div class="tema-num">10</div>
+      <div class="tema-title">Tema 10</div>
+      <span class="tema-status status-proximo">Próximamente</span>
+    </div>
+
+  </div>
+
+  <div class="section-label" style="margin-top:2.6rem">Recursos complementarios</div>
+  <div class="section-rule"></div>
+
+  <div class="recursos-grid">
+    <a class="recurso-card" href="recursos/bitacora-insights.html">
+      <div class="recurso-icon">📓</div>
+      <div>
+        <div class="recurso-title">Bitácora de Insights</div>
+        <div class="recurso-desc">Momentos "ajá" del curso, capturados para no olvidarlos.</div>
+      </div>
+    </a>
+  </div>
+
+</main>
+
+<footer>
+  Álgebra y Matemática Discreta · Licenciatura en Matemática Computacional<br>
+  Material preparado por el Prof. George Boole para uso académico personal.
+</footer>
+
+</body>
+</html>
