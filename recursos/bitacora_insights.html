@@ -1,1 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bitácora de Insights — Álgebra y Matemática Discreta</title>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --navy: #0f2a4a;
+    --navy-2: #16375e;
+    --gold: #c8992c;
+    --gold-light: #e8c877;
+    --terracotta: #b3502e;
+    --paper: #faf7f2;
+    --paper-2: #f2ede3;
+    --ink: #1c2430;
+    --muted: #5a6472;
+    --line: #dcd3c0;
+  }
+  *{ box-sizing: border-box; }
+  body{
+    margin:0; background: var(--paper); color: var(--ink);
+    font-family: 'Inter', sans-serif; line-height: 1.65; font-size: 16.5px;
+  }
+  header.masthead{
+    background: linear-gradient(135deg, var(--terracotta) 0%, #8f3d20 60%, var(--navy) 130%);
+    color: #fff; padding: 2.8rem 2rem 2.2rem; position: relative; overflow:hidden;
+  }
+  header.masthead::after{
+    content:""; position:absolute; right:-60px; top:-60px;
+    width:260px; height:260px; border-radius:50%;
+    background: radial-gradient(circle, rgba(200,153,44,0.3), transparent 70%);
+  }
+  .masthead-inner{ max-width: 900px; margin:0 auto; position:relative; z-index:1; }
+  .eyebrow{
+    text-transform: uppercase; letter-spacing:0.18em; font-size:0.72rem;
+    color: var(--gold-light); font-weight:600; margin-bottom:0.7rem;
+  }
+  h1.title{
+    font-family:'Playfair Display', serif; font-weight:700;
+    font-size: clamp(1.8rem, 4vw, 2.5rem); margin:0 0 0.5rem;
+  }
+  .subtitle{ color:#f0ded3; font-size:1rem; max-width:600px; }
+
+  main{ max-width: 900px; margin:0 auto; padding: 2.4rem 2rem 4rem; }
+
+  .intro-note{
+    background:#fff; border:1px solid var(--line); border-radius:12px;
+    padding:1.1rem 1.4rem; margin-bottom:2.2rem; font-size:0.92rem; color: var(--muted);
+  }
+  .intro-note strong{ color: var(--ink); }
+
+  .entry{
+    background:#fff; border:1px solid var(--line); border-radius:14px;
+    margin-bottom:1.6rem; overflow:hidden;
+    box-shadow: 0 10px 26px -20px rgba(15,42,74,0.35);
+  }
+  .entry-head{
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.6rem;
+    padding: 0.95rem 1.3rem; background: var(--paper-2); border-bottom:1px solid var(--line);
+  }
+  .entry-tag{
+    font-size:0.7rem; text-transform:uppercase; letter-spacing:0.07em; font-weight:700;
+    color:#fff; background: var(--navy); padding:0.25rem 0.65rem; border-radius:999px;
+  }
+  .entry-date{ font-size:0.8rem; color: var(--muted); font-family:'JetBrains Mono', monospace; }
+  .entry-title{
+    font-family:'Playfair Display', serif; font-weight:700; font-size:1.15rem;
+    color: var(--navy); margin: 0.9rem 1.3rem 0.3rem;
+  }
+  .entry-body{ padding: 0 1.3rem 1.2rem; }
+  .entry-body p{ margin:0.6rem 0; }
+
+  .mini-table{
+    border-collapse: collapse; margin: 0.8rem 0; font-family:'JetBrains Mono', monospace; font-size:0.88rem;
+  }
+  .mini-table th, .mini-table td{
+    border:1px solid var(--line); padding:0.4rem 0.8rem; text-align:center;
+  }
+  .mini-table th{ background: var(--navy); color:#fff; font-family:'Inter',sans-serif; font-weight:600; }
+
+  .takeaway{
+    background:#fbf3e6; border-left:4px solid var(--gold); border-radius:0 10px 10px 0;
+    padding:0.8rem 1.1rem; margin-top:0.8rem;
+  }
+  .takeaway .label{
+    display:block; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.07em;
+    font-weight:700; color:#8a6a1a; margin-bottom:0.3rem;
+  }
+
+  .add-entry{
+    text-align:center; padding: 1.6rem; border:1.5px dashed var(--line); border-radius:14px;
+    color: var(--muted); font-size:0.9rem;
+  }
+
+  footer{ text-align:center; padding: 2rem 1rem 3rem; color: var(--muted); font-size:0.85rem; }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="eyebrow">Complemento personal · No es material de clase</div>
+    <h1 class="title">Bitácora de Insights</h1>
+    <p class="subtitle">Los momentos "ajá" que no quiero olvidar — a través de todo el curso de Álgebra y Matemática Discreta, no solo de un tema.</p>
+  </div>
+</header>
+
+<main>
+  <div class="intro-note">
+    <strong>Cómo usar esta bitácora:</strong> este documento vive aparte del material de clase a propósito. El material de clase es la referencia "oficial y completa" de cada tema; esta bitácora es tuya — captura únicamente los destellos de comprensión que quieres poder releer en 5 minutos, sin tener que rebuscar en el documento completo. Cada entrada tiene fecha y tema para que, con el tiempo, puedas ver tu propio progreso.
+  </div>
+
+  <!-- ============================================================
+       CÓMO AGREGAR UNA NUEVA ENTRADA:
+       1. Copia TODO el bloque de una entrada existente (desde
+          <div class="entry"> hasta su </div> de cierre correspondiente).
+       2. Pégalo justo ANTES del comentario "NUEVA ENTRADA AQUÍ ABAJO"
+          que está más adelante (o al final de todas las entradas).
+       3. Cambia estos 4 campos dentro de tu copia:
+          - entry-tag   → el tema (ej. "Tema 2 · Cuantificadores")
+          - entry-date  → fecha en formato AAAA-MM-DD
+          - entry-title → el título corto del insight
+          - entry-body  → el texto explicativo, tabla (opcional) y el "takeaway"
+       4. Las fórmulas van entre signos de $ (ej. $p \lor q$) — KaTeX las
+          renderiza automáticamente, no necesitas hacer nada más.
+       ============================================================ -->
+
+  <!-- ENTRADA 1 -->
+  <div class="entry">
+    <div class="entry-head">
+      <span class="entry-tag">Tema 1 · Tablas de verdad</span>
+      <span class="entry-date">2026-08-25</span>
+    </div>
+    <div class="entry-title">Comparar filas vecinas para confirmar que una variable "importa"</div>
+    <div class="entry-body">
+      <p>Al construir la tabla de $(p\lor q)\rightarrow(\neg p \land r)$, noté que las filas 5 y 6 solo difieren en $r$ — y aun así el resultado final cambia de V a F.</p>
+      <table class="mini-table">
+        <tr><th>Fila</th><th>$p$</th><th>$q$</th><th>$r$</th><th>Resultado</th></tr>
+        <tr><td>5</td><td>F</td><td>V</td><td>V</td><td>V</td></tr>
+        <tr><td>6</td><td>F</td><td>V</td><td>F</td><td>F</td></tr>
+      </table>
+      <div class="takeaway">
+        <span class="label">Por qué me importa</span>
+        Es una técnica de autochequeo: si cambio una sola variable (dejando las demás fijas) y el resultado NUNCA cambia en ningún par de filas, probablemente cometí un error de cálculo en esa columna — porque es raro que una variable que aparece en la fórmula no tenga ningún efecto real.
+      </div>
+    </div>
+  </div>
+
+  <!-- ENTRADA 2 -->
+  <div class="entry">
+    <div class="entry-head">
+      <span class="entry-tag">Tema 1 · Tablas de verdad</span>
+      <span class="entry-date">2026-08-25</span>
+    </div>
+    <div class="entry-title">Una tabla de verdad es solo "contar en binario hacia atrás"</div>
+    <div class="entry-body">
+      <p>Tratando V=1 y F=0, la fila $k$ de una tabla con $n$ proposiciones corresponde al número binario de $2^n-1-k$. Con $n=3$: empiezo en 7 (=111=VVV) y bajo hasta 0 (=000=FFF).</p>
+      <table class="mini-table">
+        <tr><th>$k$</th><th>$2^3-1-k$</th><th>Binario</th><th>$p\,q\,r$</th></tr>
+        <tr><td>0</td><td>7</td><td>111</td><td>V V V</td></tr>
+        <tr><td>1</td><td>6</td><td>110</td><td>V V F</td></tr>
+        <tr><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+        <tr><td>7</td><td>0</td><td>000</td><td>F F F</td></tr>
+      </table>
+      <div class="takeaway">
+        <span class="label">Por qué me importa</span>
+        Nunca más tengo que "adivinar" el orden de una tabla de verdad ni preocuparme por saltarme una combinación — es literalmente contar en binario. Y es la misma lógica que usan los circuitos digitales con sus entradas encendido/apagado.
+      </div>
+    </div>
+  </div>
+
+  <!-- ENTRADA 3 -->
+  <div class="entry">
+    <div class="entry-head">
+      <span class="entry-tag">Tema 1 · Tablas de verdad</span>
+      <span class="entry-date">2026-08-25</span>
+    </div>
+    <div class="entry-title">Convertir un número a binario es dividir entre 2 hasta que el cociente llegue a 1</div>
+    <div class="entry-body">
+      <p>Divides el número entre 2, anotas el <strong>residuo</strong> (0 o 1) y repites usando el <strong>cociente</strong>, hasta que ese cociente llegue a 1. Ese último 1 es el bit más significativo; luego se leen los residuos de abajo hacia arriba.</p>
+      <table class="mini-table">
+        <tr><th>División</th><th>Cociente</th><th>Residuo</th></tr>
+        <tr><td>$13 \div 2$</td><td>6</td><td>1</td></tr>
+        <tr><td>$6 \div 2$</td><td>3</td><td>0</td></tr>
+        <tr><td>$3 \div 2$</td><td>1</td><td>1</td></tr>
+      </table>
+      <p>Cociente llegó a 1 → nos detenemos. Leyendo de abajo hacia arriba: $1101_2 = 13$.</p>
+      <div class="takeaway">
+        <span class="label">Ojo con este detalle — son DOS fuentes de dígitos, no una</span>
+        El número final NO sale solo de los residuos. Sale de pegar el <strong>último cociente</strong> (el que llegó a 1, se coloca primero, como bit más significativo) seguido de los <strong>residuos leídos de abajo hacia arriba</strong>. En este ejemplo: residuos de abajo hacia arriba dan "101" — pero eso solo es $5$, no $13$. Hay que anteponer el último cociente (1) para obtener "1" + "101" = <strong>1101</strong> = 13. Ese cociente final cuenta como dígito porque representa la "unidad que ya no se puede seguir dividiendo entre 2".
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  Bitácora personal de Edwin · Álgebra y Matemática Discreta<br>
+  Complemento del material de clase — no sustituye la referencia oficial de cada tema.
+</footer>
+
+</body>
+</html>
