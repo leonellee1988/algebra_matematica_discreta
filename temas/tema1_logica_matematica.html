@@ -1,1 +1,721 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tema 1 · Lógica Matemática — Álgebra y Matemática Discreta</title>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --navy: #0f2a4a;
+    --navy-2: #16375e;
+    --gold: #c8992c;
+    --gold-light: #e8c877;
+    --terracotta: #b3502e;
+    --paper: #faf7f2;
+    --paper-2: #f2ede3;
+    --ink: #1c2430;
+    --muted: #5a6472;
+    --line: #dcd3c0;
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin:0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.65;
+    font-size: 16.5px;
+  }
+
+  header.masthead{
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 60%, #1c4a75 100%);
+    color: #fff;
+    padding: 3.2rem 2rem 2.6rem;
+    position: relative;
+    overflow: hidden;
+  }
+  header.masthead::after{
+    content:"";
+    position:absolute; right:-60px; top:-60px;
+    width:280px; height:280px; border-radius:50%;
+    background: radial-gradient(circle, rgba(200,153,44,0.25), transparent 70%);
+  }
+  .masthead-inner{ max-width: 980px; margin: 0 auto; position:relative; z-index:1; }
+  .eyebrow{
+    text-transform: uppercase; letter-spacing:0.18em; font-size:0.75rem;
+    color: var(--gold-light); font-weight:600; margin-bottom:0.8rem;
+  }
+  h1.title{
+    font-family:'Playfair Display', serif; font-weight:700;
+    font-size: clamp(2rem, 4vw, 2.9rem); margin: 0 0 0.5rem;
+  }
+  .subtitle{ color:#d7dee8; font-size:1.05rem; max-width:640px; }
+  .prof-card{
+    margin-top:1.8rem; display:flex; gap:1rem; align-items:center;
+    background: rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15);
+    border-radius:12px; padding: 0.9rem 1.3rem; max-width: fit-content;
+  }
+  .prof-badge{
+    width:46px; height:46px; border-radius:50%;
+    background: linear-gradient(135deg, var(--gold), var(--terracotta));
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Playfair Display', serif; font-weight:700; color:#fff; font-size:1.2rem;
+    flex-shrink:0;
+  }
+  .prof-name{ font-weight:600; font-size:1rem; }
+  .prof-role{ font-size:0.85rem; color:#c7d0dd; }
+
+  nav.toc{
+    max-width: 980px; margin: -1.6rem auto 0; padding: 0 2rem;
+    position: relative; z-index: 2;
+  }
+  .toc-inner{
+    background:#fff; border:1px solid var(--line); border-radius:14px;
+    padding:1.1rem 1.4rem; box-shadow: 0 12px 30px -18px rgba(15,42,74,0.4);
+    display:flex; flex-wrap:wrap; gap: 0.5rem 1.4rem;
+  }
+  .toc-inner a{
+    color: var(--navy); text-decoration:none; font-weight:600; font-size:0.88rem;
+    border-bottom: 2px solid transparent; padding-bottom:2px;
+    transition: border-color .15s;
+  }
+  .toc-inner a:hover{ border-color: var(--gold); }
+
+  main{ max-width: 980px; margin: 0 auto; padding: 2.6rem 2rem 5rem; }
+
+  section.topic{ margin-bottom: 3.6rem; scroll-margin-top: 1.5rem; }
+
+  .topic-head{ display:flex; align-items:baseline; gap:0.9rem; margin-bottom:0.4rem; }
+  .topic-num{
+    font-family:'Playfair Display', serif; font-weight:700; font-size:1.5rem;
+    color: var(--terracotta);
+  }
+  h2.topic-title{
+    font-family:'Playfair Display', serif; font-weight:700; font-size:1.65rem;
+    margin:0; color: var(--navy);
+  }
+  .topic-rule{ height:3px; width:64px; background: var(--gold); border-radius:2px; margin: 0.6rem 0 1.4rem; }
+
+  h3.sub{
+    font-family:'Inter',sans-serif; font-weight:700; font-size:1.12rem;
+    color: var(--navy-2); margin: 1.8rem 0 0.7rem;
+    padding-left: 0.7rem; border-left: 4px solid var(--gold);
+  }
+
+  p{ margin: 0.7rem 0; }
+
+  .callout{
+    border-radius: 12px; padding: 1.1rem 1.3rem; margin: 1.1rem 0;
+    border: 1px solid var(--line);
+  }
+  .def{ background: #eef3f8; border-left: 4px solid var(--navy); }
+  .def .label{ color: var(--navy); font-weight:700; text-transform:uppercase; font-size:0.72rem; letter-spacing:0.08em; margin-bottom:0.35rem; display:block;}
+  .example{ background: #fbf3e6; border-left: 4px solid var(--gold); }
+  .example .label{ color:#8a6a1a; font-weight:700; text-transform:uppercase; font-size:0.72rem; letter-spacing:0.08em; margin-bottom:0.35rem; display:block;}
+  .note{ background: #f6ece6; border-left: 4px solid var(--terracotta); }
+  .note .label{ color: var(--terracotta); font-weight:700; text-transform:uppercase; font-size:0.72rem; letter-spacing:0.08em; margin-bottom:0.35rem; display:block;}
+  .history{ background: var(--paper-2); border-left:4px solid var(--muted); font-style: italic; color:#463f30;}
+  .history .label{ color:var(--muted); font-weight:700; text-transform:uppercase; font-size:0.72rem; letter-spacing:0.08em; margin-bottom:0.35rem; display:block; font-style:normal;}
+
+  table.truth{
+    border-collapse: collapse; margin: 1rem auto; background:#fff;
+    box-shadow: 0 6px 18px -12px rgba(0,0,0,0.35); border-radius:8px; overflow:hidden;
+  }
+  table.truth th, table.truth td{
+    border: 1px solid var(--line); padding: 0.55rem 1.1rem; text-align:center;
+    font-family: 'JetBrains Mono', monospace; font-size:0.92rem;
+  }
+  table.truth th{ background: var(--navy); color:#fff; font-family:'Inter',sans-serif; font-weight:600; }
+  table.truth tr:nth-child(even) td{ background: #f7f5ef; }
+
+  .connector-grid{
+    display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+    gap: 0.9rem; margin: 1.2rem 0;
+  }
+  .conn-card{
+    background:#fff; border:1px solid var(--line); border-radius:10px; padding: 0.9rem 1.05rem;
+  }
+  .conn-card .sym{ font-size:1.4rem; color: var(--terracotta); font-weight:700; margin-bottom:0.2rem;}
+  .conn-card .name{ font-weight:700; color: var(--navy); font-size:0.95rem;}
+  .conn-card .desc{ font-size:0.88rem; color: var(--muted); margin-top:0.25rem;}
+
+  ul, ol{ padding-left: 1.4rem; }
+  li{ margin: 0.35rem 0; }
+
+  .exercise-block{
+    margin-top: 2rem; border: 1.5px dashed var(--terracotta); border-radius: 14px;
+    padding: 1.3rem 1.5rem; background: #fffaf5;
+  }
+  .exercise-block h4{
+    margin:0 0 0.9rem; font-family:'Playfair Display', serif; color: var(--terracotta); font-size:1.15rem;
+  }
+  .exercise-item{ margin-bottom: 1rem; }
+  .exercise-item .qn{ font-weight:600; }
+  details{
+    margin-top: 0.4rem; background:#fff; border:1px solid var(--line); border-radius:8px; padding:0.5rem 0.9rem;
+  }
+  details summary{
+    cursor:pointer; font-weight:600; color: var(--navy); font-size:0.88rem;
+  }
+  details[open] summary{ margin-bottom:0.5rem; }
+
+  code{
+    font-family:'JetBrains Mono', monospace; background:#eef1f5; padding:0.1rem 0.35rem;
+    border-radius:4px; font-size:0.88em;
+  }
+
+  footer{
+    text-align:center; padding: 2.2rem 1rem 3rem; color: var(--muted); font-size:0.85rem;
+  }
+
+  .badge-row{ display:flex; gap:0.6rem; flex-wrap:wrap; margin: 0.9rem 0 0.2rem; }
+  .pill{
+    font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; font-weight:700;
+    padding: 0.25rem 0.7rem; border-radius:999px; background: var(--paper-2); color: var(--navy);
+    border: 1px solid var(--line);
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="eyebrow">Licenciatura en Matemática Computacional · Álgebra y Matemática Discreta</div>
+    <h1 class="title">Tema 1 — Lógica Matemática</h1>
+    <p class="subtitle">Fundamentos del razonamiento formal: proposiciones, conectores, tablas de verdad, tautologías, contradicciones e inferencia. El lenguaje sobre el cual se construye toda la matemática y la ciencia de la computación.</p>
+    <div class="prof-card">
+      <div class="prof-badge">GB</div>
+      <div>
+        <div class="prof-name">Prof. George Boole</div>
+        <div class="prof-role">Cátedra de Álgebra y Matemática Discreta</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="toc-inner">
+    <a href="#s0">0. Introducción y objetivos</a>
+    <a href="#s1">1. Proposiciones y conectores</a>
+    <a href="#s2">2. Tablas de verdad</a>
+    <a href="#s3">3. Tautologías y contradicciones</a>
+    <a href="#s4">4. Inferencia</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============ 0. INTRODUCCIÓN ============ -->
+<section class="topic" id="s0">
+  <div class="topic-head">
+    <span class="topic-num">0</span>
+    <h2 class="topic-title">Introducción y objetivos</h2>
+  </div>
+  <div class="topic-rule"></div>
+
+  <p>Bienvenido a la primera unidad del curso. Mi nombre —el que he tomado prestado para acompañarte en esta cátedra— pertenece a <strong>George Boole</strong> (1815–1864), quien en 1854 publicó <em>An Investigation of the Laws of Thought</em>, el texto que transformó la lógica de un ejercicio filosófico en un sistema algebraico manipulable. Sin ese paso, no existirían los circuitos digitales, los compiladores, las bases de datos relacionales, ni una sola línea de código que ejecutes en tu carrera. Todo empieza aquí.</p>
+
+  <div class="callout note">
+    <span class="label">Por qué este tema es la base de todo</span>
+    <p style="margin:0">La lógica matemática no es un capítulo aislado: es la <em>gramática</em> con la que se escriben las demostraciones de Álgebra, los algoritmos de Estructuras de Datos, las condiciones de un <code>if</code> en cualquier lenguaje de programación, y las consultas <code>WHERE</code> de SQL. Dominar este tema con rigor te dará ventaja en absolutamente todos los cursos posteriores de la Licenciatura.</p>
+  </div>
+
+  <h3 class="sub">Objetivos de aprendizaje</h3>
+  <p>Al finalizar este tema, serás capaz de:</p>
+  <ol>
+    <li>Identificar si un enunciado del lenguaje natural es una <strong>proposición lógica</strong> y justificar por qué.</li>
+    <li>Traducir enunciados complejos del español a notación simbólica usando los cinco conectores lógicos fundamentales.</li>
+    <li>Construir tablas de verdad de forma sistemática para cualquier fórmula proposicional, sin importar su complejidad.</li>
+    <li>Clasificar una fórmula como <strong>tautología</strong>, <strong>contradicción</strong> o <strong>contingencia</strong>, y usar esta clasificación para simplificar razonamientos.</li>
+    <li>Evaluar la validez de un argumento aplicando <strong>reglas de inferencia</strong> formales (Modus Ponens, Modus Tollens, Silogismo Hipotético, entre otras).</li>
+    <li>Reconocer la diferencia crucial entre un argumento <em>válido</em> y un argumento con conclusión <em>verdadera</em> — un error conceptual que incluso estudiantes avanzados cometen.</li>
+  </ol>
+
+  <h3 class="sub">Mapa del tema</h3>
+  <div class="badge-row">
+    <span class="pill">Proposiciones</span>
+    <span class="pill">Conectores</span>
+    <span class="pill">Tablas de verdad</span>
+    <span class="pill">Tautología / Contradicción</span>
+    <span class="pill">Inferencia</span>
+  </div>
+  <p>La estructura es deliberadamente acumulativa: cada subtema es prerrequisito estricto del siguiente. No avances al subtema 2 sin poder resolver, de memoria y sin ayuda, los ejercicios del subtema 1.</p>
+
+  <div class="callout history">
+    <span class="label">Nota histórica</span>
+    <p style="margin:0">Aunque Boole formalizó el álgebra de la lógica, sus raíces se remontan a Aristóteles (silogismos, siglo IV a.C.). El siguiente gran salto lo dieron Gottlob Frege y Bertrand Russell a finales del siglo XIX e inicios del XX, al fundamentar la matemática entera sobre la lógica formal. Tú estás heredando 24 siglos de refinamiento en un solo semestre.</p>
+  </div>
+</section>
+
+<!-- ============ 1. PROPOSICIONES Y CONECTORES ============ -->
+<section class="topic" id="s1">
+  <div class="topic-head">
+    <span class="topic-num">1</span>
+    <h2 class="topic-title">Proposiciones y conectores</h2>
+  </div>
+  <div class="topic-rule"></div>
+
+  <h3 class="sub">1.1 ¿Qué es una proposición?</h3>
+  <div class="callout def">
+    <span class="label">Definición</span>
+    <p style="margin:0">Una <strong>proposición</strong> es un enunciado declarativo al que se le puede asignar exactamente un valor de verdad: <strong>verdadero (V)</strong> o <strong>falso (F)</strong>, pero nunca ambos ni ninguno.</p>
+  </div>
+
+  <p>Esta definición tiene tres exigencias que casi todos los estudiantes pasan por alto la primera vez:</p>
+  <ol>
+    <li><strong>Debe ser declarativa</strong> — no una pregunta, orden o exclamación.</li>
+    <li><strong>Debe tener valor de verdad determinado</strong> — no necesitas <em>saber</em> cuál es (puede depender de información que desconoces), pero debe <em>existir</em> objetivamente.</li>
+    <li><strong>Debe ser bivalente</strong> — exactamente un valor, nunca los dos simultáneamente (este es el llamado <em>Principio del Tercero Excluido</em>, base de la lógica clásica que usaremos todo el curso).</li>
+  </ol>
+
+  <div class="callout example">
+    <span class="label">Ejemplo resuelto — Clasificación de enunciados</span>
+    <table class="truth" style="width:100%">
+      <tr><th style="text-align:left">Enunciado</th><th>¿Proposición?</th><th style="text-align:left">Justificación</th></tr>
+      <tr><td style="text-align:left">"Guatemala está en Centroamérica."</td><td>Sí</td><td style="text-align:left">Declarativo, verdadero, un solo valor.</td></tr>
+      <tr><td style="text-align:left">"$2 + 2 = 5$"</td><td>Sí</td><td style="text-align:left">Declarativo y falso — sigue siendo proposición.</td></tr>
+      <tr><td style="text-align:left">"¿Ya entregaste la tarea?"</td><td>No</td><td style="text-align:left">Es una pregunta, no una afirmación.</td></tr>
+      <tr><td style="text-align:left">"$x + 3 = 8$"</td><td>No*</td><td style="text-align:left">Es una <em>función proposicional</em>: su verdad depende de $x$.</td></tr>
+      <tr><td style="text-align:left">"Esta oración es falsa."</td><td>No</td><td style="text-align:left">Paradoja: si es V, es F; si es F, es V. Viola bivalencia.</td></tr>
+    </table>
+    <p style="font-size:0.85rem; color:var(--muted); margin-top:0.6rem">*Se convierte en proposición al asignar un valor concreto a $x$ (ej. "si $x=5$, entonces $x+3=8$") o al cuantificarla ("para todo $x$, $x+3=8$") — esto lo veremos formalmente en el tema de cuantificadores.</p>
+  </div>
+
+  <p>Usamos <strong>letras proposicionales</strong> minúsculas ($p, q, r, s, \dots$) para representar proposiciones simples, del mismo modo que en álgebra usamos $x, y, z$ para representar números. A partir de proposiciones simples (<em>atómicas</em>) construimos proposiciones compuestas (<em>moleculares</em>) mediante <strong>conectores lógicos</strong>.</p>
+
+  <h3 class="sub">1.2 Los cinco conectores lógicos fundamentales</h3>
+
+  <div class="connector-grid">
+    <div class="conn-card">
+      <div class="sym">$\neg p$</div>
+      <div class="name">Negación</div>
+      <div class="desc">"no $p$". Invierte el valor de verdad. Único conector unario.</div>
+    </div>
+    <div class="conn-card">
+      <div class="sym">$p \land q$</div>
+      <div class="name">Conjunción</div>
+      <div class="desc">"$p$ y $q$". Verdadera solo si ambas lo son.</div>
+    </div>
+    <div class="conn-card">
+      <div class="sym">$p \lor q$</div>
+      <div class="name">Disyunción (inclusiva)</div>
+      <div class="desc">"$p$ o $q$ (o ambas)". Falsa solo si ambas son falsas.</div>
+    </div>
+    <div class="conn-card">
+      <div class="sym">$p \rightarrow q$</div>
+      <div class="name">Condicional</div>
+      <div class="desc">"si $p$ entonces $q$". Falsa únicamente cuando $p$=V y $q$=F.</div>
+    </div>
+    <div class="conn-card">
+      <div class="sym">$p \leftrightarrow q$</div>
+      <div class="name">Bicondicional</div>
+      <div class="desc">"$p$ si y solo si $q$". Verdadera cuando ambas comparten valor de verdad.</div>
+    </div>
+  </div>
+
+  <div class="callout note">
+    <span class="label">El conector que más confusión genera: el condicional</span>
+    <p>La tabla de verdad del condicional $p \rightarrow q$ desconcierta a casi todos al inicio, porque cuando $p$ es <strong>falsa</strong>, el condicional entero se declara <strong>verdadero</strong> — sin importar $q$. Esto se llama <em>verdad vacua</em> (<em>vacuous truth</em>).</p>
+    <p style="margin-bottom:0">Piénsalo con esta promesa: "Si apruebas el examen, te invito un café." Si <strong>no</strong> apruebas el examen ($p$ = F), no rompí mi promesa sin importar si te invito el café o no — la promesa simplemente no aplicaba. Solo mentí (condicional falso) si aprobaste ($p$=V) y no te invité ($q$=F).</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ejemplo resuelto — Traducción de lenguaje natural a notación simbólica</span>
+    <p><strong>Enunciado:</strong> "Si estudio Cálculo y no descanso lo suficiente, entonces me irá bien en el examen o me sentiré agotado, pero no ambas cosas."</p>
+    <p><strong>Paso 1 — Identificar proposiciones atómicas:</strong></p>
+    <ul>
+      <li>$p$: "Estudio Cálculo"</li>
+      <li>$q$: "Descanso lo suficiente"</li>
+      <li>$r$: "Me irá bien en el examen"</li>
+      <li>$s$: "Me sentiré agotado"</li>
+    </ul>
+    <p><strong>Paso 2 — Identificar la estructura:</strong> es un condicional cuyo antecedente es una conjunción, y cuyo consecuente es una disyunción <em>exclusiva</em> (o lo uno o lo otro, pero no ambas).</p>
+    <p style="margin-bottom:0"><strong>Resultado:</strong> $$(p \land \neg q) \rightarrow (r \oplus s)$$ donde $\oplus$ denota la disyunción exclusiva (<em>XOR</em>), equivalente a $(r \lor s) \land \neg(r \land s)$.</p>
+  </div>
+
+  <h3 class="sub">1.3 Conectores derivados: disyunción exclusiva, NAND y NOR</h3>
+  <p>Además de los cinco fundamentales, existen conectores derivados especialmente relevantes en Ciencias de la Computación, ya que son la base del diseño de circuitos digitales:</p>
+  <ul>
+    <li><strong>XOR</strong> ($p \oplus q$): verdadera cuando exactamente una de las dos proposiciones es verdadera.</li>
+    <li><strong>NAND</strong> ($p \uparrow q$): equivalente a $\neg(p \land q)$. Es <em>funcionalmente completo</em> — cualquier circuito lógico puede construirse usando únicamente compuertas NAND.</li>
+    <li><strong>NOR</strong> ($p \downarrow q$): equivalente a $\neg(p \lor q)$. También funcionalmente completo.</li>
+  </ul>
+
+  <div class="exercise-block">
+    <h4>Ejercicios de práctica — 1. Proposiciones y conectores</h4>
+
+    <div class="exercise-item">
+      <div class="qn">1. Determina si cada enunciado es una proposición. Si lo es, indica si es verdadera, falsa, o si su valor depende de información externa:</div>
+      <p>a) "El número 17 es primo."<br>
+         b) "Cierra la puerta, por favor."<br>
+         c) "Existe vida inteligente fuera de la Tierra."<br>
+         d) "$x^2 - 4 = 0$"<br>
+         e) "El BI Manager de Gerfor asistirá a la reunión del jueves."</p>
+      <details><summary>Ver solución</summary>
+        <p>a) Proposición, verdadera ($17$ solo es divisible por $1$ y por sí mismo).<br>
+        b) No es proposición — es una orden (imperativo).<br>
+        c) Proposición — tiene un valor de verdad objetivo aunque hoy no lo conozcamos con certeza.<br>
+        d) No es proposición en su forma actual — es una función proposicional; se vuelve proposición al fijar $x$ (ej. $x=2$ da una proposición verdadera).<br>
+        e) Proposición — es verdadera o falsa objetivamente, aunque dependa de un evento futuro contingente.</p>
+      </details>
+    </div>
+
+    <div class="exercise-item">
+      <div class="qn">2. Sean $p$: "Llueve" y $q$: "Hay tráfico en la ciudad". Traduce a lenguaje natural:</div>
+      <p>a) $p \rightarrow q$<br> b) $\neg p \land q$<br> c) $p \leftrightarrow q$<br> d) $\neg(p \lor q)$</p>
+      <details><summary>Ver solución</summary>
+        <p>a) "Si llueve, entonces hay tráfico en la ciudad."<br>
+        b) "No llueve y hay tráfico en la ciudad."<br>
+        c) "Llueve si y solo si hay tráfico en la ciudad."<br>
+        d) "No es el caso que llueva o haya tráfico" — equivalente a "No llueve y no hay tráfico" (verás por qué al estudiar las Leyes de De Morgan).</p>
+      </details>
+    </div>
+
+    <div class="exercise-item">
+      <div class="qn">3. Simboliza el siguiente enunciado, definiendo explícitamente tus proposiciones atómicas: "Para aprobar el curso de Álgebra y Matemática Discreta, es necesario aprobar los tres parciales, o bien aprobar el examen final, siempre que la nota de zona sea suficiente."</div>
+      <details><summary>Ver solución</summary>
+        <p>Definiendo: $a$: "Apruebo el curso", $t$: "Apruebo los tres parciales", $f$: "Apruebo el examen final", $z$: "La nota de zona es suficiente".</p>
+        <p style="margin-bottom:0">Una traducción razonable: $$a \leftrightarrow \big(t \lor (f \land z)\big)$$ Nota: este ejercicio es intencionalmente ambiguo, como lo es el lenguaje natural — la discusión de por qué elegiste esa estructura (y no otra) es tan importante como la fórmula misma.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2. TABLAS DE VERDAD ============ -->
+<section class="topic" id="s2">
+  <div class="topic-head">
+    <span class="topic-num">2</span>
+    <h2 class="topic-title">Tablas de verdad</h2>
+  </div>
+  <div class="topic-rule"></div>
+
+  <h3 class="sub">2.1 Definición y construcción sistemática</h3>
+  <div class="callout def">
+    <span class="label">Definición</span>
+    <p style="margin:0">Una <strong>tabla de verdad</strong> es la enumeración exhaustiva de todas las combinaciones posibles de valores de verdad de las proposiciones atómicas que componen una fórmula, junto con el valor resultante de la fórmula completa para cada combinación.</p>
+  </div>
+
+  <p>Si una fórmula tiene $n$ proposiciones atómicas distintas, su tabla de verdad tendrá exactamente $2^n$ filas, porque cada proposición admite 2 valores posibles y las combinaciones son independientes entre sí (principio de multiplicación).</p>
+
+  <h3 class="sub">2.2 Las tablas de verdad fundamentales</h3>
+
+  <table class="truth">
+    <tr><th>$p$</th><th>$q$</th><th>$\neg p$</th><th>$p \land q$</th><th>$p \lor q$</th><th>$p \rightarrow q$</th><th>$p \leftrightarrow q$</th></tr>
+    <tr><td>V</td><td>V</td><td>F</td><td>V</td><td>V</td><td>V</td><td>V</td></tr>
+    <tr><td>V</td><td>F</td><td>F</td><td>F</td><td>V</td><td>F</td><td>F</td></tr>
+    <tr><td>F</td><td>V</td><td>V</td><td>F</td><td>V</td><td>V</td><td>F</td></tr>
+    <tr><td>F</td><td>F</td><td>V</td><td>F</td><td>F</td><td>V</td><td>V</td></tr>
+  </table>
+
+  <div class="callout note">
+    <span class="label">Cómo memorizar la fila crítica de cada conector</span>
+    <ul style="margin-bottom:0">
+      <li><strong>$\land$ (AND):</strong> "el eslabón más débil" — basta una F para que todo sea F.</li>
+      <li><strong>$\lor$ (OR):</strong> "basta un ganador" — basta una V para que todo sea V.</li>
+      <li><strong>$\rightarrow$ (implica):</strong> solo miente cuando promete algo verdadero ($p$=V) y no lo cumple ($q$=F). Es el conector con más filas verdaderas (3 de 4).</li>
+      <li><strong>$\leftrightarrow$ (equivale):</strong> verdadero exactamente cuando $p$ y $q$ "están de acuerdo" (mismo valor).</li>
+    </ul>
+  </div>
+
+  <h3 class="sub">2.3 Construcción de tablas para fórmulas compuestas</h3>
+  <p>Para fórmulas con varios conectores, se construye una columna por cada subfórmula, siguiendo estrictamente la <strong>jerarquía de operadores</strong> (de mayor a menor precedencia): $\neg$, luego $\land$, luego $\lor$, luego $\rightarrow$, y finalmente $\leftrightarrow$. Ante la duda, usa paréntesis — nunca dependas de memorizar la precedencia bajo presión de examen.</p>
+
+  <div class="callout example">
+    <span class="label">Ejemplo resuelto — Fórmula con 3 proposiciones</span>
+    <p>Construye la tabla de verdad de $(p \lor q) \rightarrow (\neg p \land r)$.</p>
+    <p>Como hay 3 proposiciones atómicas ($p, q, r$), la tabla tiene $2^3 = 8$ filas. Construimos columna por columna:</p>
+    <table class="truth">
+      <tr><th>$p$</th><th>$q$</th><th>$r$</th><th>$p \lor q$</th><th>$\neg p$</th><th>$\neg p \land r$</th><th>$(p\lor q)\rightarrow(\neg p \land r)$</th></tr>
+      <tr><td>V</td><td>V</td><td>V</td><td>V</td><td>F</td><td>F</td><td>F</td></tr>
+      <tr><td>V</td><td>V</td><td>F</td><td>V</td><td>F</td><td>F</td><td>F</td></tr>
+      <tr><td>V</td><td>F</td><td>V</td><td>V</td><td>F</td><td>F</td><td>F</td></tr>
+      <tr><td>V</td><td>F</td><td>F</td><td>V</td><td>F</td><td>F</td><td>F</td></tr>
+      <tr><td>F</td><td>V</td><td>V</td><td>V</td><td>V</td><td>V</td><td>V</td></tr>
+      <tr><td>F</td><td>V</td><td>F</td><td>V</td><td>V</td><td>F</td><td>F</td></tr>
+      <tr><td>F</td><td>F</td><td>V</td><td>F</td><td>V</td><td>V</td><td>V</td></tr>
+      <tr><td>F</td><td>F</td><td>F</td><td>F</td><td>V</td><td>F</td><td>V</td></tr>
+    </table>
+    <p style="margin-bottom:0"><strong>Observación pedagógica:</strong> nota que en las filas 5 y 6 solo cambia $r$, pero el resultado final cambia de V a F — esto confirma que $r$ es relevante para el valor de verdad de la fórmula completa. Verificar esto es una técnica útil de autochequeo.</p>
+  </div>
+
+  <h3 class="sub">2.4 Orden recomendado de asignación de valores (convención estándar)</h3>
+  <p>Para no omitir combinaciones, asigna los valores de V y F en orden descendente binario, tratando V=1 y F=0. Con $n$ proposiciones, la fila $k$ (empezando en $k=0$) corresponde a la representación binaria de $2^n - 1 - k$. Esta es la misma convención que usarás luego al construir circuitos combinacionales y bases de datos con lógica proposicional.</p>
+
+  <div class="exercise-block">
+    <h4>Ejercicios de práctica — 2. Tablas de verdad</h4>
+
+    <div class="exercise-item">
+      <div class="qn">1. Construye la tabla de verdad completa de $\neg p \lor (q \land \neg r)$.</div>
+      <details><summary>Ver solución</summary>
+        <table class="truth">
+          <tr><th>$p$</th><th>$q$</th><th>$r$</th><th>$\neg p$</th><th>$\neg r$</th><th>$q \land \neg r$</th><th>Resultado</th></tr>
+          <tr><td>V</td><td>V</td><td>V</td><td>F</td><td>F</td><td>F</td><td>F</td></tr>
+          <tr><td>V</td><td>V</td><td>F</td><td>F</td><td>V</td><td>V</td><td>V</td></tr>
+          <tr><td>V</td><td>F</td><td>V</td><td>F</td><td>F</td><td>F</td><td>F</td></tr>
+          <tr><td>V</td><td>F</td><td>F</td><td>F</td><td>V</td><td>F</td><td>F</td></tr>
+          <tr><td>F</td><td>V</td><td>V</td><td>V</td><td>F</td><td>F</td><td>V</td></tr>
+          <tr><td>F</td><td>V</td><td>F</td><td>V</td><td>V</td><td>V</td><td>V</td></tr>
+          <tr><td>F</td><td>F</td><td>V</td><td>V</td><td>F</td><td>F</td><td>V</td></tr>
+          <tr><td>F</td><td>F</td><td>F</td><td>V</td><td>V</td><td>F</td><td>V</td></tr>
+        </table>
+      </details>
+    </div>
+
+    <div class="exercise-item">
+      <div class="qn">2. Sin construir toda la tabla: ¿cuántas filas tendrá la tabla de verdad de una fórmula con 5 proposiciones atómicas distintas? ¿Y si dos de esas "proposiciones" en realidad son la misma proposición repetida (ej. $p$ aparece dos veces)?</div>
+      <details><summary>Ver solución</summary>
+        <p>Con 5 proposiciones atómicas <em>distintas</em>: $2^5 = 32$ filas. Si una proposición se repite (por ejemplo la fórmula es $(p \land q) \rightarrow (p \lor r)$, donde $p$ aparece dos veces pero solo cuenta una vez como atómica distinta), el número de filas depende del número de proposiciones <strong>distintas</strong>, no del número de apariciones. Aquí serían $p, q, r$ → 3 proposiciones distintas → $2^3=8$ filas.</p>
+      </details>
+    </div>
+
+    <div class="exercise-item">
+      <div class="qn">3. (Reto) Dos fórmulas se llaman <em>lógicamente equivalentes</em> si tienen exactamente la misma columna de resultado en su tabla de verdad. Demuestra, construyendo ambas tablas, que $p \rightarrow q$ es lógicamente equivalente a $\neg p \lor q$.</div>
+      <details><summary>Ver solución</summary>
+        <table class="truth">
+          <tr><th>$p$</th><th>$q$</th><th>$p \rightarrow q$</th><th>$\neg p$</th><th>$\neg p \lor q$</th></tr>
+          <tr><td>V</td><td>V</td><td>V</td><td>F</td><td>V</td></tr>
+          <tr><td>V</td><td>F</td><td>F</td><td>F</td><td>F</td></tr>
+          <tr><td>F</td><td>V</td><td>V</td><td>V</td><td>V</td></tr>
+          <tr><td>F</td><td>F</td><td>V</td><td>V</td><td>V</td></tr>
+        </table>
+        <p style="margin-bottom:0">Las columnas finales son idénticas (V, F, V, V) en ambos casos ⇒ las fórmulas son lógicamente equivalentes: $p \rightarrow q \equiv \neg p \lor q$. Esta equivalencia es extremadamente útil y la usarás constantemente para simplificar demostraciones.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. TAUTOLOGÍAS Y CONTRADICCIONES ============ -->
+<section class="topic" id="s3">
+  <div class="topic-head">
+    <span class="topic-num">3</span>
+    <h2 class="topic-title">Tautologías y contradicciones</h2>
+  </div>
+  <div class="topic-rule"></div>
+
+  <h3 class="sub">3.1 Las tres categorías semánticas de una fórmula</h3>
+
+  <div class="callout def">
+    <span class="label">Definiciones</span>
+    <ul style="margin-bottom:0">
+      <li><strong>Tautología:</strong> fórmula que es verdadera para <em>toda</em> combinación de valores de verdad de sus componentes (columna final de la tabla: solo V's). Se denota a veces $\models \phi$.</li>
+      <li><strong>Contradicción:</strong> fórmula que es falsa para <em>toda</em> combinación posible (columna final: solo F's).</li>
+      <li><strong>Contingencia:</strong> fórmula que es verdadera en algunas combinaciones y falsa en otras (mezcla de V's y F's).</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ejemplo resuelto — Clasificación mediante tabla de verdad</span>
+    <p>Clasifica $p \lor \neg p$ y $p \land \neg p$.</p>
+    <table class="truth">
+      <tr><th>$p$</th><th>$\neg p$</th><th>$p \lor \neg p$</th><th>$p \land \neg p$</th></tr>
+      <tr><td>V</td><td>F</td><td>V</td><td>F</td></tr>
+      <tr><td>F</td><td>V</td><td>V</td><td>F</td></tr>
+    </table>
+    <p style="margin-bottom:0">$p \lor \neg p$ es una <strong>tautología</strong> (siempre V) — se conoce como <em>Principio del Tercero Excluido</em>. $p \land \neg p$ es una <strong>contradicción</strong> (siempre F) — se conoce como <em>Principio de No Contradicción</em>. Ambos son pilares axiomáticos de toda la lógica clásica que estudiaremos.</p>
+  </div>
+
+  <h3 class="sub">3.2 Por qué importan: el puente hacia las demostraciones</h3>
+  <p>Las tautologías no son curiosidades: son las <strong>leyes lógicas</strong> que justifican cada paso de una demostración matemática. Cuando en Cálculo o Álgebra Lineal escribes "por lo tanto", estás invocando —implícita o explícitamente— una tautología que garantiza que la conclusión se sigue necesariamente de las premisas.</p>
+
+  <h3 class="sub">3.3 Equivalencias lógicas notables (tautologías bicondicionales)</h3>
+  <p>Estas leyes son herramientas de simplificación algebraica para proposiciones, exactamente como las identidades algebraicas lo son para expresiones numéricas:</p>
+
+  <table class="truth" style="width:100%">
+    <tr><th style="text-align:left">Nombre</th><th style="text-align:left">Ley</th></tr>
+    <tr><td style="text-align:left">Doble negación</td><td style="text-align:left">$\neg(\neg p) \equiv p$</td></tr>
+    <tr><td style="text-align:left">De Morgan</td><td style="text-align:left">$\neg(p \land q) \equiv \neg p \lor \neg q$ &nbsp;·&nbsp; $\neg(p \lor q) \equiv \neg p \land \neg q$</td></tr>
+    <tr><td style="text-align:left">Conmutatividad</td><td style="text-align:left">$p \land q \equiv q \land p$ &nbsp;·&nbsp; $p \lor q \equiv q \lor p$</td></tr>
+    <tr><td style="text-align:left">Asociatividad</td><td style="text-align:left">$(p \land q) \land r \equiv p \land (q \land r)$</td></tr>
+    <tr><td style="text-align:left">Distributividad</td><td style="text-align:left">$p \land (q \lor r) \equiv (p \land q) \lor (p \land r)$</td></tr>
+    <tr><td style="text-align:left">Condicional como disyunción</td><td style="text-align:left">$p \rightarrow q \equiv \neg p \lor q$</td></tr>
+    <tr><td style="text-align:left">Contrapositiva</td><td style="text-align:left">$p \rightarrow q \equiv \neg q \rightarrow \neg p$</td></tr>
+    <tr><td style="text-align:left">Idempotencia</td><td style="text-align:left">$p \land p \equiv p$ &nbsp;·&nbsp; $p \lor p \equiv p$</td></tr>
+  </table>
+
+  <div class="callout note">
+    <span class="label">La ley de De Morgan es, con diferencia, la más usada en programación</span>
+    <p style="margin-bottom:0">Cuando escribes <code>!(a && b)</code> y lo simplificas a <code>!a || !b</code> en cualquier lenguaje de programación, estás aplicando exactamente esta ley. Dominarla de memoria te ahorrará errores de lógica en cada curso de programación que tomes.</p>
+  </div>
+
+  <h3 class="sub">3.4 Verificación de equivalencias sin tabla de verdad: manipulación algebraica</h3>
+  <div class="callout example">
+    <span class="label">Ejemplo resuelto — Simplificación paso a paso</span>
+    <p>Demuestra, sin tabla de verdad, que $\neg(p \rightarrow q) \equiv p \land \neg q$.</p>
+    <p style="margin-bottom:0">
+      $\neg(p \rightarrow q)$<br>
+      $\equiv \neg(\neg p \lor q)$ &nbsp;<span style="color:var(--muted)">(por la equivalencia del condicional)</span><br>
+      $\equiv \neg(\neg p) \land \neg q$ &nbsp;<span style="color:var(--muted)">(por De Morgan)</span><br>
+      $\equiv p \land \neg q$ &nbsp;<span style="color:var(--muted)">(por doble negación) ∎</span>
+    </p>
+  </div>
+
+  <div class="exercise-block">
+    <h4>Ejercicios de práctica — 3. Tautologías y contradicciones</h4>
+
+    <div class="exercise-item">
+      <div class="qn">1. Clasifica cada fórmula como tautología, contradicción o contingencia, construyendo la tabla de verdad correspondiente:</div>
+      <p>a) $(p \rightarrow q) \leftrightarrow (\neg q \rightarrow \neg p)$<br>
+         b) $(p \land q) \land \neg(p \lor q)$<br>
+         c) $p \rightarrow (q \rightarrow p)$</p>
+      <details><summary>Ver solución</summary>
+        <p>a) <strong>Tautología</strong> — es exactamente la ley de la contrapositiva, verdadera en las 4 filas.<br>
+        b) <strong>Contradicción</strong> — pide que $p\land q$ sea verdadero y, a la vez, que ni $p$ ni $q$ lo sean; imposible simultáneamente.<br>
+        c) <strong>Tautología</strong> — si $p$ es verdadero, "$q \to p$" también lo es automáticamente (consecuente verdadero); si $p$ es falso, el condicional externo es vacuamente verdadero.</p>
+      </details>
+    </div>
+
+    <div class="exercise-item">
+      <div class="qn">2. Usa las equivalencias lógicas (no tablas de verdad) para simplificar: $\neg(\neg p \lor q) \lor (p \land q)$.</div>
+      <details><summary>Ver solución</summary>
+        <p>
+        $\neg(\neg p \lor q) \lor (p \land q)$<br>
+        $\equiv (\neg(\neg p) \land \neg q) \lor (p \land q)$ &nbsp;(De Morgan)<br>
+        $\equiv (p \land \neg q) \lor (p \land q)$ &nbsp;(doble negación)<br>
+        $\equiv p \land (\neg q \lor q)$ &nbsp;(distributividad)<br>
+        $\equiv p \land \text{V}$ &nbsp;(tercero excluido)<br>
+        $\equiv p$ &nbsp;(identidad)
+        </p>
+        <p style="margin-bottom:0">La fórmula original, aparentemente compleja, es lógicamente equivalente a la simple proposición $p$.</p>
+      </details>
+    </div>
+
+    <div class="exercise-item">
+      <div class="qn">3. (Reto conceptual) Explica por qué, si $\phi$ es una tautología, entonces $\neg \phi$ es necesariamente una contradicción, y viceversa. ¿Qué ocurre si $\phi$ es una contingencia — qué puedes afirmar sobre $\neg\phi$?</div>
+      <details><summary>Ver solución</summary>
+        <p>Si $\phi$ es tautología, su columna de resultado es todo V. Al negarla, cada V se convierte en F, por lo que $\neg\phi$ tiene columna de resultado todo F — es decir, es contradicción (y el argumento simétrico aplica al revés). Si $\phi$ es contingencia (mezcla de V y F), al negarla los V pasan a F y los F pasan a V — sigue habiendo una mezcla, por lo que $\neg\phi$ también es contingencia (aunque con los valores "invertidos" fila por fila).</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. INFERENCIA ============ -->
+<section class="topic" id="s4">
+  <div class="topic-head">
+    <span class="topic-num">4</span>
+    <h2 class="topic-title">Inferencia</h2>
+  </div>
+  <div class="topic-rule"></div>
+
+  <h3 class="sub">4.1 Argumentos, premisas y validez</h3>
+  <div class="callout def">
+    <span class="label">Definición</span>
+    <p style="margin:0">Un <strong>argumento</strong> es un conjunto de proposiciones llamadas <strong>premisas</strong> ($p_1, p_2, \dots, p_n$), de las cuales se afirma que se sigue una <strong>conclusión</strong> ($c$). El argumento es <strong>válido</strong> si y solo si la fórmula $(p_1 \land p_2 \land \dots \land p_n) \rightarrow c$ es una <strong>tautología</strong> — es decir, si es <em>imposible</em> que todas las premisas sean verdaderas y la conclusión sea falsa al mismo tiempo.</p>
+  </div>
+
+  <div class="callout note">
+    <span class="label">El error conceptual más importante de este subtema</span>
+    <p style="margin-bottom:0"><strong>Validez ≠ verdad de la conclusión.</strong> Un argumento puede ser <em>válido</em> (la estructura lógica es correcta) aunque su conclusión sea falsa en la realidad, si alguna premisa es falsa. Y un argumento puede tener una conclusión verdadera pero ser <em>inválido</em> (la conclusión no se deriva realmente de las premisas — "coincidencia" lógica). La lógica formal evalúa la <strong>estructura</strong> del razonamiento, no el contenido fáctico de las premisas.</p>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ejemplo — Argumento válido con premisa falsa</span>
+    <p style="margin-bottom:0">"Todos los guatemaltecos son marcianos. Edwin es guatemalteco. Por lo tanto, Edwin es marciano." — Este argumento es <strong>estructuralmente válido</strong> (tiene la forma correcta del silogismo universal), aunque la primera premisa sea evidentemente falsa y, por tanto, la conclusión también lo sea. La validez lógica es independiente de la verdad empírica de las premisas.</p>
+  </div>
+
+  <h3 class="sub">4.2 Reglas de inferencia fundamentales</h3>
+  <p>Las siguientes son formas argumentativas cuya validez está garantizada — se pueden aplicar directamente sin construir tabla de verdad cada vez, del mismo modo que usas una identidad trigonométrica sin volver a derivarla:</p>
+
+  <table class="truth" style="width:100%">
+    <tr><th style="text-align:left">Regla</th><th style="text-align:left">Forma</th></tr>
+    <tr><td style="text-align:left"><strong>Modus Ponens</strong></td><td style="text-align:left">$p \rightarrow q$, &nbsp; $p$ &nbsp;⊢&nbsp; $q$</td></tr>
+    <tr><td style="text-align:left"><strong>Modus Tollens</strong></td><td style="text-align:left">$p \rightarrow q$, &nbsp; $\neg q$ &nbsp;⊢&nbsp; $\neg p$</td></tr>
+    <tr><td style="text-align:left"><strong>Silogismo hipotético</strong></td><td style="text-align:left">$p \rightarrow q$, &nbsp; $q \rightarrow r$ &nbsp;⊢&nbsp; $p \rightarrow r$</td></tr>
+    <tr><td style="text-align:left"><strong>Silogismo disyuntivo</strong></td><td style="text-align:left">$p \lor q$, &nbsp; $\neg p$ &nbsp;⊢&nbsp; $q$</td></tr>
+    <tr><td style="text-align:left"><strong>Adición</strong></td><td style="text-align:left">$p$ &nbsp;⊢&nbsp; $p \lor q$</td></tr>
+    <tr><td style="text-align:left"><strong>Simplificación</strong></td><td style="text-align:left">$p \land q$ &nbsp;⊢&nbsp; $p$</td></tr>
+    <tr><td style="text-align:left"><strong>Conjunción</strong></td><td style="text-align:left">$p$, &nbsp; $q$ &nbsp;⊢&nbsp; $p \land q$</td></tr>
+    <tr><td style="text-align:left"><strong>Resolución</strong></td><td style="text-align:left">$p \lor q$, &nbsp; $\neg p \lor r$ &nbsp;⊢&nbsp; $q \lor r$</td></tr>
+  </table>
+  <p style="font-size:0.85rem; color:var(--muted)">El símbolo $⊢$ se lee "por lo tanto se infiere" o "se deriva sintácticamente".</p>
+
+  <div class="callout note">
+    <span class="label">Las dos falacias formales más comunes (NO son reglas válidas)</span>
+    <ul style="margin-bottom:0">
+      <li><strong>Falacia de afirmación del consecuente:</strong> $p \rightarrow q$, $q$ ⊢ $p$ &nbsp;<em>(inválida)</em>. Ejemplo: "Si llueve, la calle se moja. La calle está mojada. Por lo tanto, llovió." — Pudo haberse mojado por otra razón (un camión cisterna, por ejemplo).</li>
+      <li><strong>Falacia de negación del antecedente:</strong> $p \rightarrow q$, $\neg p$ ⊢ $\neg q$ &nbsp;<em>(inválida)</em>. Ejemplo: "Si estudio, aprobaré. No estudié. Por lo tanto, no aprobaré." — Pudiste aprobar por otros medios.</li>
+    </ul>
+  </div>
+
+  <div class="callout example">
+    <span class="label">Ejemplo resuelto — Verificación formal de un argumento</span>
+    <p><strong>Premisas:</strong> (1) Si Axel revisa el dashboard, entonces detecta el error. (2) Si detecta el error, entonces avisa a Mario. (3) Axel revisa el dashboard.</p>
+    <p><strong>Conclusión propuesta:</strong> Axel avisa a Mario.</p>
+    <p>Simbolizando: $p$: "Axel revisa el dashboard", $q$: "detecta el error", $r$: "avisa a Mario". Premisas: $p\rightarrow q$, $q \rightarrow r$, $p$. Conclusión: $r$.</p>
+    <p><strong>Derivación formal:</strong></p>
+    <ol>
+      <li>$p \rightarrow q$ &nbsp;<span style="color:var(--muted)">(premisa 1)</span></li>
+      <li>$q \rightarrow r$ &nbsp;<span style="color:var(--muted)">(premisa 2)</span></li>
+      <li>$p$ &nbsp;<span style="color:var(--muted)">(premisa 3)</span></li>
+      <li>$p \rightarrow r$ &nbsp;<span style="color:var(--muted)">(de 1 y 2, Silogismo Hipotético)</span></li>
+      <li>$r$ &nbsp;<span style="color:var(--muted)">(de 3 y 4, Modus Ponens) ∎</span></li>
+    </ol>
+    <p style="margin-bottom:0">El argumento es <strong>válido</strong>: la conclusión se deriva necesariamente, paso a paso, usando únicamente reglas de inferencia garantizadas.</p>
+  </div>
+
+  <h3 class="sub">4.3 Verificación de validez mediante tabla de verdad (método alternativo)</h3>
+  <p>Todo argumento también puede verificarse construyendo la tabla de verdad de $(p_1 \land \dots \land p_n) \rightarrow c$ y comprobando que sea tautología. Este método es más lento para argumentos largos, pero es infalible y no requiere memorizar reglas — es tu "red de seguridad" en examen si dudas de una derivación formal.</p>
+
+  <div class="exercise-block">
+    <h4>Ejercicios de práctica — 4. Inferencia</h4>
+
+    <div class="exercise-item">
+      <div class="qn">1. Identifica qué regla de inferencia justifica cada paso y determina si el argumento es válido:</div>
+      <p>"Si el servidor de BI falla, entonces el dashboard no se actualiza. El dashboard no se actualiza. Por lo tanto, el servidor de BI falló."</p>
+      <details><summary>Ver solución</summary>
+        <p>Simbolizando $p$: "el servidor falla", $q$: "el dashboard no se actualiza". El argumento tiene la forma $p \rightarrow q$, $q$ ⊢ $p$. Esta es la <strong>falacia de afirmación del consecuente</strong> — el argumento es <strong>inválido</strong>. El dashboard pudo no actualizarse por otra causa (ej. un error de credenciales, sin que el servidor haya fallado).</p>
+      </details>
+    </div>
+
+    <div class="exercise-item">
+      <div class="qn">2. Formaliza el argumento, identifica la regla utilizada en cada paso, y concluye si es válido: "O el reporte se entrega hoy, o se entrega mañana. No se entregará mañana porque el cliente adelantó la reunión. Por lo tanto, el reporte se entrega hoy."</div>
+      <details><summary>Ver solución</summary>
+        <p>Sea $h$: "el reporte se entrega hoy", $m$: "el reporte se entrega mañana". Premisas: $h \lor m$, $\neg m$. Conclusión: $h$. Esto es exactamente la forma del <strong>Silogismo Disyuntivo</strong> ($p\lor q$, $\neg p$ ⊢ $q$, aplicado con los roles de $p$ y $q$ intercambiados). El argumento es <strong>válido</strong>.</p>
+      </details>
+    </div>
+
+    <div class="exercise-item">
+      <div class="qn">3. (Reto de síntesis) Demuestra formalmente, indicando la regla en cada paso, que de las premisas $p \rightarrow q$, $r \rightarrow s$, $p \lor r$, $\neg q$ se puede derivar la conclusión $s$.</div>
+      <details><summary>Ver solución</summary>
+        <ol>
+          <li>$p \rightarrow q$ &nbsp;(premisa)</li>
+          <li>$\neg q$ &nbsp;(premisa)</li>
+          <li>$\neg p$ &nbsp;(de 1 y 2, Modus Tollens)</li>
+          <li>$p \lor r$ &nbsp;(premisa)</li>
+          <li>$r$ &nbsp;(de 3 y 4, Silogismo Disyuntivo)</li>
+          <li>$r \rightarrow s$ &nbsp;(premisa)</li>
+          <li>$s$ &nbsp;(de 5 y 6, Modus Ponens) ∎</li>
+        </ol>
+      </details>
+    </div>
+  </div>
+</section>
+
+<div class="callout note" style="max-width:100%">
+  <span class="label">Cierre del tema y siguiente paso</span>
+  <p style="margin-bottom:0">Con esto cierras el subtema de Lógica Proposicional clásica. El siguiente tema natural en la progresión del curso es la <strong>Lógica de Predicados y Cuantificadores</strong> ($\forall$, $\exists$), que extiende todo lo aprendido aquí a enunciados sobre conjuntos y variables — el puente directo hacia la Teoría de Conjuntos y las demostraciones formales que dominarán el resto del curso.</p>
+</div>
+
+</main>
+
+<footer>
+  Álgebra y Matemática Discreta · Licenciatura en Matemática Computacional<br>
+  Material preparado por el Prof. George Boole para uso académico personal.
+</footer>
+
+</body>
+</html>
