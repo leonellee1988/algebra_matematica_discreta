@@ -189,6 +189,20 @@
     padding: 0.25rem 0.7rem; border-radius:999px; background: var(--paper-2); color: var(--navy);
     border: 1px solid var(--line);
   }
+
+    /* ===== TABLAS RESPONSIVE EN CELULAR ===== */
+  @media (max-width: 640px){
+    table.truth{
+      display: block;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap;
+      max-width: 100%;
+    }
+    table.truth th, table.truth td{
+      padding: 0.5rem 0.8rem;
+    }
+  }
 </style>
 </head>
 <body>
